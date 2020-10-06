@@ -54,6 +54,12 @@ fi
 mv ${1} ${1}.unsigned
 cp ${1}.signed ${1}
 
+# if the test kernel mok has been enrolled, then we are done.
+if mokutil --test-key $DER_KER | grep "already enrolled"; then
+	echo "Kernel mok has been enrolled"
+	exit 0
+fi
+
 #set uefi variable with testker.der
 if [ -f $EFIVAR_KER ]; then
   echo "find $EFIVAR_KER, remove it"
